@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://ya02a33uwdhu"]
+
+[ext_resource type="Script" uid="uid://wrj305ncbw8u" path="res://escena_principal/escena_principal.gd" id="1_viuk4"]
+[ext_resource type="PackedScene" uid="uid://6s10vrby4mns" path="res://nivel_1.tscn" id="2_plhmg"]
+[ext_resource type="PackedScene" uid="uid://bv1si1vsiesrm" path="res://nivel_2.tscn" id="3_wi1rp"]
+[ext_resource type="AudioStream" uid="uid://csyoql15iygaw" path="res://musica/musica.wav" id="4_ltaac"]
+
+[node name="EscenaPrincipal" type="Node2D" unique_id=510933045]
+script = ExtResource("1_viuk4")
+niveles = Array[PackedScene]([ExtResource("2_plhmg"), ExtResource("3_wi1rp")])
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=343237373]
+zoom = Vector2(2.4, 2.26)
+
+[node name="Interfaz" type="CanvasLayer" parent="." unique_id=209386358]
+
+[node name="ContadorMonedas" type="Label" parent="Interfaz" unique_id=908518563]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -152.0
+offset_top = 20.0
+offset_right = -35.0
+offset_bottom = 43.0
+grow_horizontal = 0
+size_flags_horizontal = 0
+text = "Monedas: 0 / 3."
+
+[node name="MusicFondo" type="AudioStreamPlayer" parent="." unique_id=992470605]
+stream = ExtResource("4_ltaac")
+volume_db = -12.418
+autoplay = true

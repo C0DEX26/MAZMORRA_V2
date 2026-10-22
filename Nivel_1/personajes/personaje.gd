@@ -1,0 +1,50 @@
+extends CharacterBody2D
+signal personaje_muerto
+@export var animacion: AnimatedSprite2D
+@export var area_2d: Area2D
+
+var _vel_mov: float = 100.0
+var _vel_jump: float = -300.0
+var _muerto: bool
+
+func _ready() -> void:
+	add_to_group("personajes")
+	area_2d.body_entered.connect(_tocar_pinchos)
+	
+func _physics_process(delta: float) -> void:
+	if _muerto:
+		return 
+	
+	#Asignamos gravedad al personaje 
+	velocity += get_gravity() * delta
+	
+	#Funcion de saltar para el personaje
+	if Input.is_action_just_pressed("saltar") && is_on_floor():
+		velocity.y = _vel_jump
+	
+	#Movimiento Lateral del personaje 
+	if Input.is_action_pressed("der"):
+		velocity.x = _vel_mov
+		animacion.flip_h = true
+	elif Input.is_action_pressed("izq"):
+		velocity.x = -_vel_mov
+		animacion.flip_h = false
+	else:
+		velocity.x = 0
+	move_and_slide()
+	
+	#animacion del personaje
+	if !is_on_floor():
+		animacion.play("jump")
+	elif velocity.x != 0:
+		animacion.play("run")
+	else:
+		animacion.play("idle")
+		
+func _tocar_pinchos(_body: Node2D) -> void:
+	animacion.modulate = Color(18.54, 0.0, 0.0, 1.0)
+	_muerto = true
+	animacion.stop()
+	await get_tree().create_timer(0.5).timeout
+	personaje_muerto.emit()
+	
